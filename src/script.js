@@ -18,12 +18,6 @@
   applyBtn.addEventListener('click', () => {
     const task = noteInput.value.trim();
     if (task !== '') {
-
-      if(todoList.children.length > 0) {
-        const hr = document.createElement('hr');
-        
-        todoList.appendChild(hr);
-      }
       
       const li = document.createElement('li');
       li.className = 'todo-item';
@@ -50,8 +44,13 @@
 
       const edit = document.createElement('button');
       edit.textContent = 'E';
+
       const deleteBtn = document.createElement('button');
       deleteBtn.textContent = 'D';
+      deleteBtn.addEventListener('click', () => {
+        todoList.removeChild(li);
+        todoList.removeChild(hr);
+      });
 
       right.appendChild(edit);
       right.appendChild(deleteBtn);
