@@ -134,8 +134,6 @@ h1 {
 }
 
 .todo-item__right {
-  position: absolute;
-  right: 0;
   display: flex;
   gap: 8px;
 }
