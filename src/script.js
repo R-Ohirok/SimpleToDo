@@ -46,7 +46,14 @@
       edit.textContent = 'E';
 
       const deleteBtn = document.createElement('button');
+      
       deleteBtn.textContent = 'D';
+      deleteBtn.addEventListener('click', () => {
+        todoList.removeChild(li);
+        todoList.removeChild(hr);
+      });
+
+
 
       right.appendChild(edit);
       right.appendChild(deleteBtn);
