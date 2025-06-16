@@ -8,8 +8,80 @@
     />
     <title>Simple ToDo</title>
     <link rel="stylesheet" href="./index.css">
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <h1>TODO LIST</h1>
-  </body>
+  <div class="container">
+    <header>
+      <h1>TODO LIST</h1>
+  
+      <div class="top-bar">
+        <div class="search-wrapper">
+          <input type="text" placeholder="Note" class="search-input" />
+          <button class="search-btn">
+            S
+          </button>
+        </div>
+        <select class="filter">
+          <option>ALL</option>
+          <option>Active</option>
+          <option>Completed</option>
+        </select>
+        <button class="theme-toggle">T</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <ul class="todo-list">
+        <li class="todo-item">
+          <div class="todo-item__left">
+            <input type="checkbox" />
+            <span>NOTE 1</span>
+          </div>
+          <div class="todo-right">
+            <button>E</button>
+            <button>D</button>
+          </div>
+        </li>
+        <li class="todo-item todo-item__completed">
+          <div class="todo-item__left">
+            <input type="checkbox" />
+            <span>NOTE 1</span>
+          </div>
+          <div class="todo-right">
+            <button>E</button>
+            <button>D</button>
+          </div>
+        </li>
+        <li class="todo-item">
+          <div class="todo-item__left">
+            <input type="checkbox" />
+            <span>NOTE 1</span>
+          </div>
+          <div class="todo-right">
+            <button>E</button>
+            <button>D</button>
+          </div>
+        </li>
+      </ul>
+    </main>
+
+    <div class="footer">
+      <button class="add-btn">＋</button>
+    </div>
+  </div>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-content__top">
+        <h2 class="modal-content__title">NEW NOTE</h2>
+        <input class="modal-content__input" type="text" id="noteInput" placeholder="Input your note..." />
+      </div>
+      <div class="modal-buttons">
+        <button id="cancelBtn" class="btn btn-cancel">CANCEL</button>
+        <button id="applyBtn" class="btn btn-apply">APPLY</button>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
