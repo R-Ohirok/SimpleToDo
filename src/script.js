@@ -5,9 +5,12 @@
   const cancelBtn = document.getElementById('cancelBtn');
   const todoList = document.querySelector('.todo-list');
   const filterStatus = document.getElementById('filter');
+  const searchInput = document.getElementById('search-input');
+  const searchBtn = document.querySelector('.search-btn');
 
   let todos = [];
   let activeFilterStatus = filterStatus.value;
+  let activeSearchInput = '';
 
   function generateId() {
     return Math.random().toString(36).slice(0, 8);
@@ -31,8 +34,13 @@
     });
 
     const label = document.createElement('span');
-    label.className = 'todo-item__title';
+    label.classList.add('todo-item__title');
     label.textContent = activeTodo.taskLabel;
+
+    if (activeTodo.isTaskComleted) {
+      li.classList.add('todo-item__completed');
+    }
+    
     
     li.appendChild(checkbox);
     li.appendChild(label);
@@ -71,10 +79,19 @@
         (activeFilterStatus === 'Active' && !todo.isTaskComleted) || 
         (activeFilterStatus === 'Completed' && todo.isTaskComleted)
       ) {
-        showTodo(todo);
+        if (!activeSearchInput || todo.taskLabel.includes(activeSearchInput)) {
+          showTodo(todo);
+        }
       }
     });
   }
+
+  searchBtn.addEventListener('click', () => {
+    searchInput.value = searchInput.value.trim();
+    activeSearchInput = searchInput.value;
+
+    renderTodos();
+  });
 
   filterStatus.addEventListener('change', () => {
     activeFilterStatus = filterStatus.value;
