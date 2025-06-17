@@ -31,6 +31,8 @@
     checkbox.addEventListener('change', () => {
       li.classList.toggle('todo-item__completed', checkbox.checked);
       activeTodo.isTaskComleted = !activeTodo.isTaskComleted;
+
+      renderTodos();
     });
 
     const label = document.createElement('span');
@@ -51,6 +53,40 @@
     const edit = document.createElement('button');
     edit.textContent = 'E';
     edit.className = 'todo-item__control-btn';
+
+    edit.addEventListener('click', () => {
+      const input = document.createElement('input');
+
+      input.type = 'text';
+      input.value = activeTodo.taskLabel;
+      input.className = 'todo-item__input';
+      li.replaceChild(input, label);
+      input.focus();
+
+      const changeLabel = () => {
+        const newLabel = input.value.trim();
+
+        if (newLabel !== '') {
+          activeTodo.taskLabel = newLabel;
+        }
+
+        renderTodos();
+      };
+
+      input.addEventListener('keydown', (btn) => {
+        if (btn.key === 'Enter') {
+          changeLabel();
+        }
+
+        if (btn.key === 'Escape') {
+          li.replaceChild(label, input);
+        }
+      });
+
+      input.addEventListener('blur', () => {
+        li.replaceChild(label, input);
+      });
+    });
 
     const deleteBtn = document.createElement('button');    
     deleteBtn.className = 'todo-item__control-btn';
@@ -85,6 +121,24 @@
       }
     });
   }
+
+  searchInput.addEventListener('keydown', (btn) => {
+    if (btn.key === 'Enter') {
+      searchInput.value = searchInput.value.trim();
+      activeSearchInput = searchInput.value;
+      searchInput.blur();
+
+      renderTodos();
+    }
+
+    if (btn.key === 'Escape') {
+      searchInput.blur();
+    }
+  });
+  
+  searchInput.addEventListener('blur', () => {
+    searchInput.value = activeSearchInput;
+  });
 
   searchBtn.addEventListener('click', () => {
     searchInput.value = searchInput.value.trim();

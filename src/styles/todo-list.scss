@@ -26,6 +26,24 @@
     text-transform: uppercase;
   }
 
+  &__input {
+    font-family: Kanit, sans-serif;
+    font-size: var(--main-text-size);
+    font-weight: var(--standart-font-weight);
+    line-height: 100%;
+    text-transform: uppercase;
+    color: var(--main-color);
+    
+    flex: 1;
+    border: 0;
+    box-sizing: border-box;
+    padding: 0;
+    
+    &:focus {
+      outline: none;
+    }
+  }
+
   &__completed {
     .todo-item__title {
       font-weight: 400;
@@ -36,7 +54,6 @@
 
   &__control {
     display: none;
-    // display: flex;
     gap: 10px;
 
     &-btn {
