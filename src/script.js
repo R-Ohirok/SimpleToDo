@@ -2,6 +2,8 @@
   const searchBtn = document.querySelector('.search-btn');
   const filterStatus = document.getElementById('filter');
   const themeToggle = document.querySelector('.theme-toggle');
+  const empty = document.querySelector('.empty');
+  const emptyImg = document.querySelector('.empty__img');
   const todoList = document.querySelector('.todo-list');
   const addBtn = document.querySelector('.add-btn');
   const modal = document.getElementById('modal');
@@ -121,6 +123,8 @@
         }
       }
     });
+
+    empty.classList.toggle('hidden', todoList.children.length > 0);
   }
 
   searchInput.addEventListener('keydown', (btn) => {
@@ -156,6 +160,7 @@
   themeToggle.addEventListener('click', () => {
     const isDark = document.documentElement.toggleAttribute('data-dark');
     themeToggle.classList.toggle('theme-toggle-dark', isDark);
+    emptyImg.classList.toggle('empty__img-dark', isDark);
   });
 
   addBtn.addEventListener('click', () => {
