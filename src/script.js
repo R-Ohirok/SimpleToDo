@@ -154,7 +154,13 @@
   });
 
   themeToggle.addEventListener('click', () => {
-    document.documentElement.hasAttribute('data-theme') ? document.documentElement.removeAttribute('data-theme') : document.documentElement.setAttribute('data-theme', 'dark');
+    if (document.documentElement.hasAttribute('data-theme')) {
+      document.documentElement.removeAttribute('data-theme');
+      themeToggle.classList.remove('theme-toggle-dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      themeToggle.classList.add('theme-toggle-dark');
+    }
   });
 
   addBtn.addEventListener('click', () => {
