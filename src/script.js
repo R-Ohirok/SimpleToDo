@@ -1,12 +1,13 @@
+  const searchInput = document.getElementById('search-input');
+  const searchBtn = document.querySelector('.search-btn');
+  const filterStatus = document.getElementById('filter');
+  const themeToggle = document.querySelector('.theme-toggle');
+  const todoList = document.querySelector('.todo-list');
   const addBtn = document.querySelector('.add-btn');
   const modal = document.getElementById('modal');
   const noteInput = document.getElementById('noteInput');
   const applyBtn = document.getElementById('applyBtn');
   const cancelBtn = document.getElementById('cancelBtn');
-  const todoList = document.querySelector('.todo-list');
-  const filterStatus = document.getElementById('filter');
-  const searchInput = document.getElementById('search-input');
-  const searchBtn = document.querySelector('.search-btn');
 
   let todos = [];
   let activeFilterStatus = filterStatus.value;
@@ -150,6 +151,11 @@
   filterStatus.addEventListener('change', () => {
     activeFilterStatus = filterStatus.value;
     renderTodos();
+  });
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.toggleAttribute('data-dark');
+    themeToggle.classList.toggle('theme-toggle-dark', isDark);
   });
 
   addBtn.addEventListener('click', () => {
