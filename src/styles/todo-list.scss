@@ -1,0 +1,55 @@
+@use './variables.scss';
+
+.todo-list {
+  width: 520px;
+  margin-inline: auto;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  padding-block: 17px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--element-color);
+  }
+
+  &__status {
+    height: 26px;
+    aspect-ratio: 1/1;
+    accent-color: var(--element-color);
+  }
+
+  &__title {
+    flex: 1;
+    text-transform: uppercase;
+  }
+
+  &__completed {
+    .todo-item__title {
+      font-weight: 400;
+      text-decoration: line-through;
+      opacity: 50%;
+    }
+  }
+
+  &__control {
+    display: none;
+    // display: flex;
+    gap: 10px;
+
+    &-btn {
+      height: 18px;
+      aspect-ratio: 1/1;
+    }
+  }
+
+  &:hover {
+    .todo-item__control {
+      display: flex;
+    }
+  }
+}
+
+

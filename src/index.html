@@ -6,26 +6,31 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
+
     <title>Simple ToDo</title>
-    <link rel="stylesheet" href="./index.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.scss">
+    
     <script src="script.js" defer></script>
   </head>
-  <body>
-  <div class="container">
-    <header>
-      <h1>TODO LIST</h1>
+  <body class="page">
+    <header class="header">
+      <h1 class="header-title">TODO LIST</h1>
   
       <div class="top-bar">
         <div class="search-wrapper">
-          <input type="text" placeholder="Note" class="search-input" />
+          <input id="search-input" type="text" placeholder="Search note..." class="search-input" />
           <button class="search-btn">
             S
           </button>
         </div>
-        <select class="filter">
-          <option>ALL</option>
-          <option>Active</option>
-          <option>Completed</option>
+        <select id="filter" class="filter">
+          <option value="All" selected class="filter-option">All</option>
+          <option value="Active" class="filter-option">Active</option>
+          <option value="Completed" class="filter-option">Completed</option>
         </select>
         <button class="theme-toggle">T</button>
       </div>
@@ -42,16 +47,15 @@
   </div>
 
   <div id="modal" class="modal hidden">
-    <div class="modal-content">
-      <div class="modal-content__top">
-        <h2 class="modal-content__title">NEW NOTE</h2>
-        <input class="modal-content__input" type="text" id="noteInput" placeholder="Input your note..." />
+    <div class="modal__content">
+      <div class="modal__content-top">
+        <h2 class="modal__content-title">NEW NOTE</h2>
+        <input class="modal__content-input" type="text" id="noteInput" placeholder="Input your note..." />
       </div>
-      <div class="modal-buttons">
-        <button id="cancelBtn" class="btn btn-cancel">CANCEL</button>
-        <button id="applyBtn" class="btn btn-apply">APPLY</button>
+      <div class="modal__control">
+        <button id="cancelBtn" class="modal__control-btn modal__control-btn-cancel">CANCEL</button>
+        <button id="applyBtn" class="modal__control-btn modal__control-btn-apply">APPLY</button>
       </div>
     </div>
-  </div>
 </body>
 </html>
