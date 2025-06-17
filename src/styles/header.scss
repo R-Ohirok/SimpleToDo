@@ -46,6 +46,9 @@
   top: 9px;
   height: 21px;
   aspect-ratio: 1/1;
+  background-image: url(./icons/search.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .filter {
@@ -66,20 +69,32 @@
   &-option {
     background-color: var(--white-color);
     color: var(--element-color);
+  }
 
   &:hover {
-    opacity: 0.2;
+    background-color: var(--element-hover-color);
+    box-shadow: 0px 0px 4px 0px #6C63FF;
   }
+  
+  &:active {
+    background-color: var(--element-hover-color);
+    box-shadow: 0px 0px 4px 0px #6C63FF;
   }
 }
 
 .theme-toggle {
-  font-family: Kanit, sans-serif;
-  font-size: var(--button-text-size);
-  font-weight: var(--standart-font-weight);
-  background-color: var(--element-color);
-  color: var(--white-color);
-  border-radius: var(--standart-border-radius);
   height: 100%;
   aspect-ratio: 1/1;
+  border-radius: var(--standart-border-radius);
+  
+  background-color: var(--element-color);
+  background-image: url(./icons/theme-switcher.svg);
+  background-size: 22px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    background-color: var(--element-hover-color);
+    box-shadow: 0px 0px 4px 0px #6C63FF;
+  }
 }
