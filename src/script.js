@@ -17,11 +17,14 @@
     const li = document.createElement('li');
     li.className = 'todo-item';
 
+
     const checkbox = document.createElement('input');
+
     checkbox.type = 'checkbox';
     checkbox.checked = activeTodo.isTaskComleted;
     checkbox.name = activeTodo.taskId;
     checkbox.className = 'todo-item__status';
+
     checkbox.addEventListener('change', () => {
       li.classList.toggle('todo-item__completed', checkbox.checked);
       activeTodo.isTaskComleted = !activeTodo.isTaskComleted;
@@ -29,7 +32,6 @@
 
     const label = document.createElement('span');
     label.className = 'todo-item__title';
-
     label.textContent = activeTodo.taskLabel;
     
     li.appendChild(checkbox);
@@ -42,15 +44,15 @@
     edit.textContent = 'E';
     edit.className = 'todo-item__control-btn';
 
-    const deleteBtn = document.createElement('button');
-    
+    const deleteBtn = document.createElement('button');    
+    deleteBtn.className = 'todo-item__control-btn';
     deleteBtn.textContent = 'D';
+
     deleteBtn.addEventListener('click', () => {
       todoList.removeChild(li);
       todos = todos.filter(todo => todo.taskId !== activeTodo.taskId);
       renderTodos();
     });
-    deleteBtn.className = 'todo-item__control-btn';
 
     control.appendChild(edit);
     control.appendChild(deleteBtn);
