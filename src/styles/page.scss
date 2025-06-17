@@ -1,0 +1,16 @@
+@use './variables.scss';
+
+.page {
+  font-family: Kanit, sans-serif;
+  font-size: var(--main-text-size);
+  font-weight: var(--standart-font-weight);
+  line-height: 100%;
+  color: var(--main-color);
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
