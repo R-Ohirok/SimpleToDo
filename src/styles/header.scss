@@ -4,6 +4,8 @@
   width: 750px;
   margin-inline: auto;
   text-align: center;
+  margin-top: 40px;
+  margin-bottom: 30px;
 
   &-title {
     font-size: 24px;
@@ -15,7 +17,6 @@
   display: flex;
   gap: 16px;
   height: var(--standart-input-height);
-  margin-bottom: 30px;
 }
 
 .search-wrapper {
@@ -57,7 +58,7 @@
   font-weight: var(--standart-font-weight);
   width: auto;
   background-color: var(--element-color);
-  color: var(--white-color);
+  color: var(--main-button-color);
   text-transform: uppercase;
 
   border: none;
@@ -67,7 +68,7 @@
   cursor: pointer;
 
   &-option {
-    background-color: var(--white-color);
+    background-color: var(--main-button-color);
     color: var(--element-color);
   }
 
@@ -75,7 +76,7 @@
     background-color: var(--element-hover-color);
     box-shadow: 0px 0px 4px 0px #6C63FF;
   }
-  
+
   &:active {
     background-color: var(--element-hover-color);
     box-shadow: 0px 0px 4px 0px #6C63FF;
