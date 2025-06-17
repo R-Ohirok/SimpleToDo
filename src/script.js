@@ -154,13 +154,8 @@
   });
 
   themeToggle.addEventListener('click', () => {
-    if (document.documentElement.hasAttribute('data-theme')) {
-      document.documentElement.removeAttribute('data-theme');
-      themeToggle.classList.remove('theme-toggle-dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      themeToggle.classList.add('theme-toggle-dark');
-    }
+    const isDark = document.documentElement.toggleAttribute('data-dark');
+    themeToggle.classList.toggle('theme-toggle-dark', isDark);
   });
 
   addBtn.addEventListener('click', () => {
