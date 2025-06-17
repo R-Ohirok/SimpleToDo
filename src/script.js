@@ -160,6 +160,7 @@
   themeToggle.addEventListener('click', () => {
     const isDark = document.documentElement.toggleAttribute('data-dark');
     themeToggle.classList.toggle('theme-toggle-dark', isDark);
+    emptyImg.classList.toggle('empty__img-dark', isDark);
   });
 
   addBtn.addEventListener('click', () => {
