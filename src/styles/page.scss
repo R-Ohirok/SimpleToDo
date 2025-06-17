@@ -15,3 +15,29 @@
 .main {
   flex: 1;
 }
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-inline: auto;
+
+  &__img {
+    width: 221px;
+    height: 174px;
+    margin-bottom: 20px;
+
+    background-image: url(./icons/empty.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &-dark {
+      background-image: url(./icons/empty-dark.png);
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

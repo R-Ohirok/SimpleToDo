@@ -2,6 +2,8 @@
   const searchBtn = document.querySelector('.search-btn');
   const filterStatus = document.getElementById('filter');
   const themeToggle = document.querySelector('.theme-toggle');
+  const empty = document.querySelector('.empty');
+  const emptyImg = document.querySelector('.empty__img');
   const todoList = document.querySelector('.todo-list');
   const addBtn = document.querySelector('.add-btn');
   const modal = document.getElementById('modal');
@@ -121,6 +123,8 @@
         }
       }
     });
+
+    empty.classList.toggle('hidden', todoList.children.length > 0);
   }
 
   searchInput.addEventListener('keydown', (btn) => {
@@ -157,9 +161,11 @@
     if (document.documentElement.hasAttribute('data-theme')) {
       document.documentElement.removeAttribute('data-theme');
       themeToggle.classList.remove('theme-toggle-dark');
+      emptyImg.classList.remove('empty__img-dark');
     } else {
       document.documentElement.setAttribute('data-theme', 'dark');
       themeToggle.classList.add('theme-toggle-dark');
+      emptyImg.classList.add('empty__img-dark');
     }
   });
 
