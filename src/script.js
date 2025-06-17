@@ -51,8 +51,8 @@
     control.className = 'todo-item__control';
 
     const edit = document.createElement('button');
-    edit.textContent = 'E';
-    edit.className = 'todo-item__control-btn';
+    edit.classList.add('todo-item__control-btn');
+    edit.classList.add('todo-item__control-btn-edit');
 
     edit.addEventListener('click', () => {
       const input = document.createElement('input');
@@ -89,8 +89,8 @@
     });
 
     const deleteBtn = document.createElement('button');    
-    deleteBtn.className = 'todo-item__control-btn';
-    deleteBtn.textContent = 'D';
+    deleteBtn.classList.add('todo-item__control-btn');
+    deleteBtn.classList.add('todo-item__control-btn-delete');
 
     deleteBtn.addEventListener('click', () => {
       todoList.removeChild(li);
@@ -135,7 +135,7 @@
       searchInput.blur();
     }
   });
-  
+
   searchInput.addEventListener('blur', () => {
     searchInput.value = activeSearchInput;
   });
