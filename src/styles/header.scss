@@ -1,7 +1,8 @@
 @use './variables.scss';
 
 .header {
-  width: 750px;
+  width: 90dvw;
+  max-width: 750px;
   margin-inline: auto;
   text-align: center;
   margin-top: 40px;
@@ -22,7 +23,7 @@
 .search-wrapper {
   flex: 1;
   position: relative;
-  width: 595px;
+  // width: 595px;
   height: 100%;
 }
 
