@@ -43,8 +43,8 @@
 
 .search-btn {
   position: absolute;
-  right: 16px;
-  top: 9px;
+  top: 50%;
+  transform: translate(-42px, -50%);
   height: 21px;
   aspect-ratio: 1/1;
   background-image: url(./icons/search.svg);

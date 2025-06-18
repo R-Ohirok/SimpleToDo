@@ -19,6 +19,21 @@
     return Math.random().toString(36).slice(0, 8);
   }
 
+  function createToDo() {
+    const taskLabel = noteInput.value.trim();
+
+    if (taskLabel !== '') {
+      const isTaskComleted = false;
+      const taskId = generateId();
+
+      todos.push({taskId, taskLabel, isTaskComleted});
+      
+      modal.classList.add('hidden');
+      
+      renderTodos();
+    }
+  }
+
   function showTodo(activeTodo) {
     const li = document.createElement('li');
     li.className = 'todo-item';
@@ -169,21 +184,20 @@
     noteInput.focus();
   });
 
+  noteInput.addEventListener('keydown', (btn) => {
+    if (btn.key === 'Enter') {
+      createToDo();
+    }
+
+    if (btn.key === 'Escape') {
+      modal.classList.add('hidden');
+    }
+  });
+
   cancelBtn.addEventListener('click', () => {
     modal.classList.add('hidden');
   });
 
   applyBtn.addEventListener('click', () => {
-    const taskLabel = noteInput.value.trim();
-
-    if (taskLabel !== '') {
-      const isTaskComleted = false;
-      const taskId = generateId();
-
-      todos.push({taskId, taskLabel, isTaskComleted});
-      
-      modal.classList.add('hidden');
-      
-      renderTodos();
-    }
+    createToDo();
   });
