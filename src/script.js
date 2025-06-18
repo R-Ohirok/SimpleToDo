@@ -10,10 +10,21 @@
   const noteInput = document.getElementById('noteInput');
   const applyBtn = document.getElementById('applyBtn');
   const cancelBtn = document.getElementById('cancelBtn');
+  const pagination = document.querySelector('.pagination');
 
-  let todos = [];
   let activeFilterStatus = filterStatus.value;
   let activeSearchInput = '';
+
+  let activePage = 1;
+  const perPage = 5;
+
+  let todos = [];
+  let toDosToShow = [];
+
+  function rerenderPage() {
+    renderTodos();
+    renderPaginationBtns();
+  };
 
   function generateId() {
     return Math.random().toString(36).slice(0, 8);
@@ -30,14 +41,13 @@
       
       modal.classList.add('hidden');
       
-      renderTodos();
+      rerenderPage();
     }
   }
 
   function showTodo(activeTodo) {
     const li = document.createElement('li');
     li.className = 'todo-item';
-
 
     const checkbox = document.createElement('input');
 
@@ -50,7 +60,7 @@
       li.classList.toggle('todo-item__completed', checkbox.checked);
       activeTodo.isTaskComleted = !activeTodo.isTaskComleted;
 
-      renderTodos();
+      rerenderPage();
     });
 
     const label = document.createElement('span');
@@ -112,8 +122,10 @@
 
     deleteBtn.addEventListener('click', () => {
       todoList.removeChild(li);
+      
       todos = todos.filter(todo => todo.taskId !== activeTodo.taskId);
-      renderTodos();
+
+      rerenderPage();
     });
 
     control.appendChild(edit);
@@ -126,6 +138,7 @@
 
   function renderTodos() {
     todoList.innerHTML = '';
+    toDosToShow = [];
 
     todos.forEach(todo => {
       if (
@@ -134,13 +147,50 @@
         (activeFilterStatus === 'Completed' && todo.isTaskComleted)
       ) {
         if (!activeSearchInput || todo.taskLabel.includes(activeSearchInput)) {
-          showTodo(todo);
+          toDosToShow.push(todo);
         }
       }
     });
 
-    empty.classList.toggle('hidden', todoList.children.length > 0);
+    if (activePage !== 1 && (activePage - 1) * perPage >= toDosToShow.length) {
+      activePage--;
+    }
+
+    const start = (activePage - 1) * perPage;
+    const end = Math.min(toDosToShow.length, (activePage * perPage))
+
+    const visibleToDos = toDosToShow.slice(start, end);
+
+    visibleToDos.forEach(todo => {
+      showTodo(todo);
+    });
+
+    empty.classList.toggle('hidden', toDosToShow.length > 0);
   }
+
+  function renderPaginationBtns() {
+    pagination.innerHTML = '';
+
+    const count = Math.ceil(toDosToShow.length / perPage);
+  
+    for (let i = 1; i <= count; i++) {
+      const paginationBtn = document.createElement('button');
+
+      paginationBtn.textContent = i;
+
+      paginationBtn.classList.add('pagination__btn');
+      if (activePage === i) {
+        paginationBtn.classList.add('pagination__btn-active');
+      }
+
+      paginationBtn.addEventListener('click', () => {
+        activePage = i;
+        rerenderPage();
+      })
+
+      pagination.appendChild(paginationBtn);
+    }
+  };
 
   searchInput.addEventListener('keydown', (btn) => {
     if (btn.key === 'Enter') {
@@ -148,7 +198,9 @@
       activeSearchInput = searchInput.value;
       searchInput.blur();
 
-      renderTodos();
+      activePage = 1;
+
+      rerenderPage();
     }
 
     if (btn.key === 'Escape') {
@@ -157,19 +209,29 @@
   });
 
   searchInput.addEventListener('blur', () => {
-    searchInput.value = activeSearchInput;
+    searchInput.value = searchInput.value.trim();
+      activeSearchInput = searchInput.value;
+
+      activePage = 1;
+
+      rerenderPage();
   });
 
   searchBtn.addEventListener('click', () => {
     searchInput.value = searchInput.value.trim();
     activeSearchInput = searchInput.value;
 
-    renderTodos();
+    activePage = 1;
+
+    rerenderPage();
   });
 
   filterStatus.addEventListener('change', () => {
     activeFilterStatus = filterStatus.value;
-    renderTodos();
+
+    activePage = 1;
+
+    rerenderPage();
   });
 
   themeToggle.addEventListener('click', () => {
