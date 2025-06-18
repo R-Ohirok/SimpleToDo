@@ -19,6 +19,7 @@
   const perPage = 5;
 
   let todos = [];
+  let toDosToShow = [];
 
   function rerenderPage() {
     renderTodos();
@@ -137,7 +138,7 @@
 
   function renderTodos() {
     todoList.innerHTML = '';
-    const toDosToShow = [];
+    toDosToShow = [];
 
     todos.forEach(todo => {
       if (
