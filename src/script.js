@@ -209,7 +209,12 @@
   });
 
   searchInput.addEventListener('blur', () => {
-    searchInput.value = activeSearchInput;
+    searchInput.value = searchInput.value.trim();
+      activeSearchInput = searchInput.value;
+
+      activePage = 1;
+
+      rerenderPage();
   });
 
   searchBtn.addEventListener('click', () => {
