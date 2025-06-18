@@ -28,7 +28,7 @@
   bindEvents() {
     this.searchInput.addEventListener('keydown', (btn) => {
       if (btn.key === 'Enter') {
-        this.activeSearchInput = this.searchInput.value.trim();
+        this.activeSearchInput = this.searchInput.value.trim().toLowerCase();
         this.searchInput.blur();
 
         this.activePage = 1;
@@ -41,7 +41,7 @@
     });
 
     this.searchInput.addEventListener('blur', () => {
-      this.searchInput.value = this.searchInput.value.trim();
+      this.searchInput.value = this.searchInput.value.trim().toLowerCase();
       this.activeSearchInput = this.searchInput.value;
 
       this.activePage = 1;
@@ -50,7 +50,7 @@
     });
 
     this.searchBtn.addEventListener('click', () => {
-      this.searchInput.value = this.searchInput.value.trim();
+      this.searchInput.value = this.searchInput.value.trim().toLowerCase();
       this.activeSearchInput = this.searchInput.value;
 
       this.activePage = 1;
@@ -100,7 +100,7 @@
   }
 
   createToDo() {
-    const taskLabel = this.noteInput.value.trim();
+    const taskLabel = this.noteInput.value.trim().toLowerCase();
 
     if (taskLabel !== '') {
       this.todos.push({
