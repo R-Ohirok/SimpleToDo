@@ -1,7 +1,8 @@
 @use './variables.scss';
 
 .todo-list {
-  width: 520px;
+  width: 80dvw;
+  max-width: 520px;
   margin-inline: auto;
 }
 
