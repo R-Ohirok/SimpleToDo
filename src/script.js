@@ -1,56 +1,124 @@
-  const searchInput = document.getElementById('search-input');
-  const searchBtn = document.querySelector('.search-btn');
-  const filterStatus = document.getElementById('filter');
-  const themeToggle = document.querySelector('.theme-toggle');
-  const empty = document.querySelector('.empty');
-  const emptyImg = document.querySelector('.empty__img');
-  const todoList = document.querySelector('.todo-list');
-  const addBtn = document.querySelector('.add-btn');
-  const modal = document.getElementById('modal');
-  const noteInput = document.getElementById('noteInput');
-  const applyBtn = document.getElementById('applyBtn');
-  const cancelBtn = document.getElementById('cancelBtn');
-  const pagination = document.querySelector('.pagination');
+  class ToDoApp {
+    activeSearchInput = '';
+    activePage = 1;
+    perPage = 5;
+    todos = [];
+    toDosToShow = [];
 
-  let activeFilterStatus = filterStatus.value;
-  let activeSearchInput = '';
+  constructor() {
+    this.searchInput = document.getElementById('search-input');
+    this.searchBtn = document.querySelector('.search-btn');
+    this.filterStatus = document.getElementById('filter');
+    this.themeToggle = document.querySelector('.theme-toggle');
+    this.empty = document.querySelector('.empty');
+    this.emptyImg = document.querySelector('.empty__img');
+    this.todoList = document.querySelector('.todo-list');
+    this.addBtn = document.querySelector('.add-btn');
+    this.modal = document.getElementById('modal');
+    this.noteInput = document.getElementById('noteInput');
+    this.applyBtn = document.getElementById('applyBtn');
+    this.cancelBtn = document.getElementById('cancelBtn');
+    this.pagination = document.querySelector('.pagination');
 
-  let activePage = 1;
-  const perPage = 5;
+    this.activeFilterStatus = this.filterStatus.value;
 
-  let todos = [];
-  let toDosToShow = [];
-
-  function rerenderPage() {
-    renderTodos();
-    renderPaginationBtns();
-  };
-
-  function generateId() {
-    return Math.random().toString(36).slice(0, 8);
+    this.bindEvents();
   }
 
-  function createToDo() {
-    const taskLabel = noteInput.value.trim();
+  bindEvents() {
+    this.searchInput.addEventListener('keydown', (btn) => {
+      if (btn.key === 'Enter') {
+        this.activeSearchInput = this.searchInput.value.trim().toLowerCase();
+        this.searchInput.blur();
+
+        this.activePage = 1;
+        
+        this.rerenderPage();
+      } else if (btn.key === 'Escape') {
+        this.searchInput.value = this.activeSearchInput;
+        this.searchInput.blur();
+      }
+    });
+
+    this.searchInput.addEventListener('blur', () => {
+      this.searchInput.value = this.searchInput.value.trim().toLowerCase();
+      this.activeSearchInput = this.searchInput.value;
+
+      this.activePage = 1;
+      
+      this.rerenderPage();
+    });
+
+    this.searchBtn.addEventListener('click', () => {
+      this.searchInput.value = this.searchInput.value.trim().toLowerCase();
+      this.activeSearchInput = this.searchInput.value;
+
+      this.activePage = 1;
+      
+      this.rerenderPage();
+    });
+
+    this.filterStatus.addEventListener('change', () => {
+      this.activeFilterStatus = this.filterStatus.value;
+
+      this.activePage = 1;
+      
+      this.rerenderPage();
+    });
+
+    this.themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.toggleAttribute('data-dark');
+      this.themeToggle.classList.toggle('theme-toggle-dark', isDark);
+      this.emptyImg.classList.toggle('empty__img-dark', isDark);
+    });
+
+    this.addBtn.addEventListener('click', () => {
+      this.modal.classList.remove('hidden');
+      this.noteInput.value = '';
+      this.noteInput.focus();
+    });
+
+    this.noteInput.addEventListener('keydown', (btn) => {
+      if (btn.key === 'Enter') {
+        this.createToDo();
+      } else if (btn.key === 'Escape') {
+        this.modal.classList.add('hidden');
+      }
+    });
+
+    this.cancelBtn.addEventListener('click', () => {
+      this.modal.classList.add('hidden');
+    });
+
+    this.applyBtn.addEventListener('click', () => {
+      this.createToDo();
+    });
+  }
+
+  generateId() {
+    return Math.random().toString(36).slice(2, 10);
+  }
+
+  createToDo() {
+    const taskLabel = this.noteInput.value.trim().toLowerCase();
 
     if (taskLabel !== '') {
-      const isTaskComleted = false;
-      const taskId = generateId();
-
-      todos.push({taskId, taskLabel, isTaskComleted});
+      this.todos.push({
+        taskId: this.generateId(),
+        taskLabel,
+        isTaskComleted: false
+      });
       
-      modal.classList.add('hidden');
-      
-      rerenderPage();
+      this.modal.classList.add('hidden');
+      this.rerenderPage();
     }
   }
 
-  function showTodo(activeTodo) {
+  showTodo(activeTodo) {
     const li = document.createElement('li');
     li.className = 'todo-item';
 
     const checkbox = document.createElement('input');
-
     checkbox.type = 'checkbox';
     checkbox.checked = activeTodo.isTaskComleted;
     checkbox.name = activeTodo.taskId;
@@ -59,8 +127,8 @@
     checkbox.addEventListener('change', () => {
       li.classList.toggle('todo-item__completed', checkbox.checked);
       activeTodo.isTaskComleted = !activeTodo.isTaskComleted;
-
-      rerenderPage();
+      
+      this.rerenderPage();
     });
 
     const label = document.createElement('span');
@@ -70,23 +138,22 @@
     if (activeTodo.isTaskComleted) {
       li.classList.add('todo-item__completed');
     }
-    
-    
+
     li.appendChild(checkbox);
     li.appendChild(label);
 
     const control = document.createElement('div');
     control.className = 'todo-item__control';
 
-    const edit = document.createElement('button');
-    edit.classList.add('todo-item__control-btn');
-    edit.classList.add('todo-item__control-btn-edit');
-
-    edit.addEventListener('click', () => {
+    const editBtn = document.createElement('button');
+    editBtn.className = 'todo-item__control-btn todo-item__control-btn-edit';
+    
+    editBtn.addEventListener('click', () => {
       const input = document.createElement('input');
 
       input.type = 'text';
       input.value = activeTodo.taskLabel;
+      input.name = activeTodo.taskId;
       input.className = 'todo-item__input';
       li.replaceChild(input, label);
       input.focus();
@@ -94,172 +161,97 @@
       const changeLabel = () => {
         const newLabel = input.value.trim();
 
-        if (newLabel !== '') {
+        if (newLabel) {
           activeTodo.taskLabel = newLabel;
         }
 
-        renderTodos();
+        this.rerenderPage();
       };
 
       input.addEventListener('keydown', (btn) => {
         if (btn.key === 'Enter') {
           changeLabel();
         }
-
-        if (btn.key === 'Escape') {
-          li.replaceChild(label, input);
-        }
       });
 
-      input.addEventListener('blur', () => {
-        li.replaceChild(label, input);
-      });
+      input.addEventListener('blur', () => li.replaceChild(label, input));
     });
 
-    const deleteBtn = document.createElement('button');    
-    deleteBtn.classList.add('todo-item__control-btn');
-    deleteBtn.classList.add('todo-item__control-btn-delete');
-
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'todo-item__control-btn todo-item__control-btn-delete';
+    
     deleteBtn.addEventListener('click', () => {
-      todoList.removeChild(li);
+      this.todos = this.todos.filter(todo => todo.taskId !== activeTodo.taskId);
       
-      todos = todos.filter(todo => todo.taskId !== activeTodo.taskId);
-
-      rerenderPage();
+      this.rerenderPage();
     });
 
-    control.appendChild(edit);
+    control.appendChild(editBtn);
     control.appendChild(deleteBtn);
 
     li.appendChild(control);
 
-    todoList.appendChild(li);
+    this.todoList.appendChild(li);
   }
 
-  function renderTodos() {
-    todoList.innerHTML = '';
-    toDosToShow = [];
+  renderTodos() {
+    this.todoList.innerHTML = '';
 
-    todos.forEach(todo => {
+    this.toDosToShow = this.todos.filter(todo => {
       if (
-        (activeFilterStatus === 'All') || 
-        (activeFilterStatus === 'Active' && !todo.isTaskComleted) || 
-        (activeFilterStatus === 'Completed' && todo.isTaskComleted)
+        (this.activeFilterStatus === 'All') || 
+        (this.activeFilterStatus === 'Active' && !todo.isTaskComleted) || 
+        (this.activeFilterStatus === 'Completed' && todo.isTaskComleted)
       ) {
-        if (!activeSearchInput || todo.taskLabel.includes(activeSearchInput)) {
-          toDosToShow.push(todo);
+        if (!this.activeSearchInput || todo.taskLabel.includes(this.activeSearchInput)) {
+          return true;
         }
       }
+
+      return false;
     });
 
-    if (activePage !== 1 && (activePage - 1) * perPage >= toDosToShow.length) {
-      activePage--;
+    if (this.activePage !== 1 && (this.activePage - 1) * this.perPage >= this.toDosToShow.length) {
+      this.activePage--;
     }
 
-    const start = (activePage - 1) * perPage;
-    const end = Math.min(toDosToShow.length, (activePage * perPage))
+    const start = (this.activePage - 1) * this.perPage;
+    const end = start + this.perPage;
 
-    const visibleToDos = toDosToShow.slice(start, end);
+    this.toDosToShow.slice(start, end)
+      .forEach(todo => this.showTodo(todo));
 
-    visibleToDos.forEach(todo => {
-      showTodo(todo);
-    });
-
-    empty.classList.toggle('hidden', toDosToShow.length > 0);
+    this.empty.classList.toggle('hidden', this.toDosToShow.length > 0);
   }
 
-  function renderPaginationBtns() {
-    pagination.innerHTML = '';
+  renderPaginationBtns() {
+    this.pagination.innerHTML = '';
 
-    const count = Math.ceil(toDosToShow.length / perPage);
-  
-    for (let i = 1; i <= count; i++) {
+    const pagesCount = Math.ceil(this.toDosToShow.length / this.perPage);
+
+    for (let i = 1; i <= pagesCount; i++) {
       const paginationBtn = document.createElement('button');
 
       paginationBtn.textContent = i;
-
-      paginationBtn.classList.add('pagination__btn');
-      if (activePage === i) {
+      
+      paginationBtn.className = 'pagination__btn';
+      if (i === this.activePage) {
         paginationBtn.classList.add('pagination__btn-active');
       }
 
       paginationBtn.addEventListener('click', () => {
-        activePage = i;
-        rerenderPage();
-      })
+        this.activePage = i;
+        this.rerenderPage();
+      });
 
-      pagination.appendChild(paginationBtn);
+      this.pagination.appendChild(paginationBtn);
     }
-  };
+  }
 
-  searchInput.addEventListener('keydown', (btn) => {
-    if (btn.key === 'Enter') {
-      searchInput.value = searchInput.value.trim();
-      activeSearchInput = searchInput.value;
-      searchInput.blur();
+  rerenderPage() {
+    this.renderTodos();
+    this.renderPaginationBtns();
+  }
+}
 
-      activePage = 1;
-
-      rerenderPage();
-    }
-
-    if (btn.key === 'Escape') {
-      searchInput.blur();
-    }
-  });
-
-  searchInput.addEventListener('blur', () => {
-    searchInput.value = searchInput.value.trim();
-      activeSearchInput = searchInput.value;
-
-      activePage = 1;
-
-      rerenderPage();
-  });
-
-  searchBtn.addEventListener('click', () => {
-    searchInput.value = searchInput.value.trim();
-    activeSearchInput = searchInput.value;
-
-    activePage = 1;
-
-    rerenderPage();
-  });
-
-  filterStatus.addEventListener('change', () => {
-    activeFilterStatus = filterStatus.value;
-
-    activePage = 1;
-
-    rerenderPage();
-  });
-
-  themeToggle.addEventListener('click', () => {
-    const isDark = document.documentElement.toggleAttribute('data-dark');
-    themeToggle.classList.toggle('theme-toggle-dark', isDark);
-    emptyImg.classList.toggle('empty__img-dark', isDark);
-  });
-
-  addBtn.addEventListener('click', () => {
-    modal.classList.remove('hidden');
-    noteInput.value = '';
-    noteInput.focus();
-  });
-
-  noteInput.addEventListener('keydown', (btn) => {
-    if (btn.key === 'Enter') {
-      createToDo();
-    }
-
-    if (btn.key === 'Escape') {
-      modal.classList.add('hidden');
-    }
-  });
-
-  cancelBtn.addEventListener('click', () => {
-    modal.classList.add('hidden');
-  });
-
-  applyBtn.addEventListener('click', () => {
-    createToDo();
-  });
+window.addEventListener('DOMContentLoaded', () => new ToDoApp());
